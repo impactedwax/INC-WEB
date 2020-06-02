@@ -2,60 +2,70 @@
 
     require_once("config.php");
    
-    session_start();
-   
-
-    $sql ="SELECT id, map, tileBlock FROM mapGen ORDER BY id ASC LIMIT 64";
-
-    $query=$dbConn->prepare($sql);
-    $query->execute();
-    $row = $query ->fetchall(); 
+function mapGenerator(){
+    
+    $mapGrid = '<table border ="1.5" >';
     $colomn = 0;
-
-  
-
-    $mapGrid = '<table border ="1">';
- 
-        $hero=array();
-        $_session['x']=0;
-        $_session['y']=0;
-
-    
-
-    
-    foreach($row as $rows)
+    foreach($_SESSION['mapaDatabase'] as $rows)
     {
-  
-        $id = $rows["id"];
         $tileBlock = $rows["tileBlock"];
 
-        if($colomn % 8 == 0){
+           if($colomn % 8 == 0){
             if($tileBlock == 'passable')
-                $mapGrid.='<tr><td>'."<img src='0.png'".'</td>';
+                $mapGrid.='<tr><td>'.'<img src="0.png" height="90" width="90" >'.'</td>';
             else
-                $mapGrid.='<tr><td>'."<img src='1.png'".'</td>';
+                $mapGrid.='<tr><td>'.'<img src="1.png"  height="90" width="90">'.'</td>';
         }
         else{
             if($tileBlock == 'passable')
-                $mapGrid.='<td>'."<img src='0.png'".'</td>';
+                $mapGrid.='<td>'.'<img src="0.png"  height="90" width="90"> '.'</td>';
             else
-                $mapGrid.='<td>'."<img src='1.png'".'</td>';
+                $mapGrid.='<td>'.'<img src="1.png"  height="90" width="90"> '.'</td>';
         }
         $colomn++;
     }
-   
     $mapGrid.='</tr></table>';
+    echo $mapGrid;
+}
+function heroPosition($x, $y, $heroImage, $name, $index){
+    $html='';
+    $left = ($x*90);
+    $top = (90*7) - ($y*90);
+    $css = "<style> #".$name."{
+        margin: 0;
+        padding: 0;
+        position: absolute;
+        width: 90;
+        height: 90;
+        left:".$left."px;
+        top: ".$top."px;
+        z-index:".$index.";
+    }</style>";
+    $heroPosition = '<div id="'.$name.'"><img src="'.$heroImage.'"></div>';
+    echo $css.$heroPosition;
+}
+    
+    // foreach($row as $rows)
+    // {
+  
+    //     $id = $rows["id"];
+    //     $tileBlock = $rows["tileBlock"];
+
+    //     if($colomn % 8 == 0){
+    //         if($tileBlock == 'passable')
+    //             $mapGrid.='<tr><td>'."<img src='0.png'".'</td>';
+    //         else
+    //             $mapGrid.='<tr><td>'."<img src='1.png'".'</td>';
+    //     }
+    //     else{
+    //         if($tileBlock == 'passable')
+    //             $mapGrid.='<td>'."<img src='0.png'".'</td>';
+    //         else
+    //             $mapGrid.='<td>'."<img src='1.png'".'</td>';
+    //     }
+    //     $colomn++;
+    // }
+
+
 ?>
 
-<html>
-<body>
-    <?php echo $mapGrid;
-    ?>
-    <?php     echo $hero[$_session['x']][$_session['y']] = "<img src='images\charLeft.png'>";?>
-    
-    <!-- <a href="?d=l">Left</a>
-    <a href="?d=r">Right</a>
-    <a href="?d=d">Down</a>
-    <a href="?d=Up">Up</a> -->
-</body>
-</html>
