@@ -1,6 +1,6 @@
 <?php 
     session_start();
-// session_destroy();
+ //session_destroy();
     if(!isset($_SESSION['startGame']))
     {
 
@@ -10,6 +10,7 @@
         $_SESSION['startGame'] = 1;
         $_SESSION['heroImage'] = "images\charRight.png ";
         $_SESSION['mapLevel'] = 1;
+     
 
     }
 require_once("mapGenerator.php");
@@ -71,6 +72,7 @@ td {
     </div>
 <?php 
     encounter($_SESSION['heroPos']);
+    nextMap($_SESSION['heroPos']);
     if($_SESSION['left'] == false)
     {
          echo '<a href="#"><img src="images\arleft.png" opacity:0.5></a>';
@@ -103,6 +105,7 @@ td {
   {
         echo '<a href="moveR.php  " onClick= moveRight()><img src="images\arright.png" opacity:0.5></a>';
   }
+  echo ($_SESSION['heroPos']);
 ?>
 
 

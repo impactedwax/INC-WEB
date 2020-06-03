@@ -13,12 +13,16 @@ function mapGenerator(){
            if($colomn % 8 == 0){
             if($tileBlock == 'passable')
                 $mapGrid.='<tr><td><div class="tile">'.'<img src="0.png" height="90" width="90" >'.'</div></td>';
+            else if ($tileBlock=='portal')
+                  $mapGrid.='<tr><td><div class="tile">'.'<img src="0.png" height="90" width="90" >'.'</div></td>';
             else
                 $mapGrid.='<tr><td><div class="tile">'.'<img src="1.png"  height="90" width="90">'.'</div></td>';
         }
         else{
             if($tileBlock == 'passable')
                 $mapGrid.='<td><div class="tile">'.'<img src="0.png"  height="90" width="90"> '.'</div></td>';
+            else if ($tileBlock=='portal')
+                 $mapGrid.='<td><div class="tile">'.'<img src="0.png"  height="90" width="90"> '.'</div></td>';
             else
                 $mapGrid.='<td><div class="tile">'.'<img src="1.png"  height="90" width="90"> '.'</div></td>';
         }
@@ -48,11 +52,12 @@ function heroPosition($x, $y, $heroImage, $name, $index){
 
 function encounter($mapTileNumber){
     $data;
+    $mapDetails;
     $right=$mapTileNumber+1;
     $left=$mapTileNumber-1;
     $up=$mapTileNumber-8;
     $down=$mapTileNumber+8;
-
+    
 
     if($up<0){
         $up=false;
@@ -79,25 +84,31 @@ function encounter($mapTileNumber){
             else
                 $down = true;
         }
-
+      
         if($right%8==1){
             $right = false;
         }
+      
         else{
+                   
+
             $data = getTileData($right);
-    
+            
                 if($data['tileBlock']=='obstruction')
                 {
-            
+                    
                     $right=false;
                    
                 }
+
                 else   {
+                   
                     $right=true;
                    
                 }
     
         }
+    
 
     if($left%8==0){
         $left = false;
@@ -113,7 +124,7 @@ function encounter($mapTileNumber){
         }
 
 
-
+       
     
         $_SESSION['up']=$up;
         $_SESSION['down']=$down;
@@ -123,20 +134,48 @@ function encounter($mapTileNumber){
 
 }
 
-// function wallAndEnemyDetection($mapTileNumber){
-//     $data = getTileData($mapTileNumber){
-//         if($data['tileBlock']=='wall')
-//     }
-// }
+function nextMap($mapTileNumber){
 
+$data=getTileData($mapTileNumber);
+if($data['tileBlock']=='portal'){
+    $_SESSION['heroX']=0;
+    $_SESSION['heroY']=7;
+    $_SESSION['heroPos']= 1 ;
+
+    if($_SESSION['mapLevel']<3){
+        $_SESSION['mapLevel']++;
+        echo '<script>window.location.reload()</script>';
+    }
+}
+
+}
 function getTileData($mapTileNumber){
     $cnt=1;
+  
         foreach($_SESSION['mapaDatabase'] as $rows){
             if($cnt==$mapTileNumber) 
             return $rows;
             $cnt++;
         }
+    }
+function getMapDetails($mapTileNumber)
+{
+    $cnt=1;
+    foreach($_SESSION['mapaDatabase']as $rows)
+        {
+            if ($cnt==$mapTileNumber)
+            {
+                $tileBlock=$rows['tileBlock'];
+                if($tileBlock=='portal')
+                {
+                    return $rows=1;
+                }
+                return $rows;
+            }
+            $cnt++;
+        }
 }
+
     
     // foreach($row as $rows)
     // {
