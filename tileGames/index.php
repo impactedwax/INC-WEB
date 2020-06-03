@@ -1,6 +1,6 @@
 <?php 
     session_start();
- //session_destroy();
+// session_destroy();
     if(!isset($_SESSION['startGame']))
     {
 
@@ -30,6 +30,38 @@ $_SESSION['mapaDatabase'] = $query ->fetchall();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+<style>
+
+body {
+ background-image: url('bg_main.png');
+ background-color: #cccccc;
+ background-repeat: none;
+}
+
+table {
+   border-collapse: collapse;
+}
+
+/* And this to your table's `td` elements. */
+td {
+   padding: 0; 
+   margin: 0;
+}
+
+#mapGrid{
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    background-color: #fe9800;
+    width: 700px;
+    height: 700px;
+    left: 74px;
+    top: 76px
+}
+.tile{
+    margin: 0;
+}
+</style>
 <body>
     <div id="map">
     <?php
@@ -39,33 +71,38 @@ $_SESSION['mapaDatabase'] = $query ->fetchall();
     </div>
 <?php 
     encounter($_SESSION['heroPos']);
-  if($_SESSION['right'] == false)
-  {
+    if($_SESSION['left'] == false)
+    {
+         echo '<a href="#"><img src="images\arleft.png" opacity:0.5></a>';
+      }
+    else
+    {
+       echo '<a href="moveL.php  " onClick= moveLeft()><img src="images\arleft.png" opacity:0.5></a>';
+    }
+    if($_SESSION['up'] == false)
+    {
+         echo '<a href="#"><img src="images\arup.png" opacity:0.5></a>';
+      }
+    else    
+    {
+       echo '<a href="moveU.php  " onClick= moveUp()><img src="images\arup.png" opacity:0.5></a>';
+    }
+    if($_SESSION['down'] == false)
+    {
+           echo '<a href="#"><img src="images\ardown.png" opacity:0.5></a>';
+    }
+    else
+    { 
+          echo '<a href="movdeD.php  " onClick= moveDown()><img src="images\ardown.png" opacity:0.5></a>';
+    }
+       if($_SESSION['right'] == false)
+      {
          echo '<a href="#"><img src="images\arright.png" opacity:0.5></a>';
   }
   else
+  {
         echo '<a href="moveR.php  " onClick= moveRight()><img src="images\arright.png" opacity:0.5></a>';
-
- if($_SESSION['down'] == false)
-        {
-               echo '<a href="#"><img src="images\ardown.png" opacity:0.5></a>';
-        }
-        else
-              echo '<a href="movdeD.php  " onClick= moveDown()><img src="images\ardown.png" opacity:0.5></a>';
-if($_SESSION['left'] == false)
-        {
-             echo '<a href="#"><img src="images\arleft.png" opacity:0.5></a>';
-          }
-        else
-           echo '<a href="moveL.php  " onClick= moveLeft()><img src="images\arleft.png" opacity:0.5></a>';
-
- if($_SESSION['up'] == false)
-           {
-                echo '<a href="#"><img src="images\arup.png" opacity:0.5></a>';
-             }
-           else
-              echo '<a href="moveU.php  " onClick= moveUp()><img src="images\arup.png" opacity:0.5></a>';
-   
+  }
 ?>
 
 

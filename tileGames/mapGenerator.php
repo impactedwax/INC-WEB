@@ -4,7 +4,7 @@
    
 function mapGenerator(){
     
-    $mapGrid = '<table border ="1.5" >';
+    $mapGrid = '<table border ="1.5" ><tr>';
     $colomn = 0;
     foreach($_SESSION['mapaDatabase'] as $rows)
     {
@@ -12,15 +12,15 @@ function mapGenerator(){
 
            if($colomn % 8 == 0){
             if($tileBlock == 'passable')
-                $mapGrid.='<tr><td>'.'<img src="0.png" height="90" width="90" >'.'</td>';
+                $mapGrid.='<tr><td><div class="tile">'.'<img src="0.png" height="90" width="90" >'.'</div></td>';
             else
-                $mapGrid.='<tr><td>'.'<img src="1.png"  height="90" width="90">'.'</td>';
+                $mapGrid.='<tr><td><div class="tile">'.'<img src="1.png"  height="90" width="90">'.'</div></td>';
         }
         else{
             if($tileBlock == 'passable')
-                $mapGrid.='<td>'.'<img src="0.png"  height="90" width="90"> '.'</td>';
+                $mapGrid.='<td><div class="tile">'.'<img src="0.png"  height="90" width="90"> '.'</div></td>';
             else
-                $mapGrid.='<td>'.'<img src="1.png"  height="90" width="90"> '.'</td>';
+                $mapGrid.='<td><div class="tile">'.'<img src="1.png"  height="90" width="90"> '.'</div></td>';
         }
         $colomn++;
     }
@@ -33,16 +33,16 @@ function heroPosition($x, $y, $heroImage, $name, $index){
     $left = ($x*90);
     $top = (90*7) - ($y*90);
     $css = "<style> #".$name."{
-        margin: 20px;
+        margin: 10px;
         padding: 0;
         position: absolute;
-        width: 90;
-        height: 90;
-        left:".$left."px;
-        top: ".$top."px;
+        width: 90px;
+        height: 90px;
+         left:".$left."px;
+         top: ".$top."px;
         z-index:".$index.";
     }</style>";
-    $heroPosition = '<div id="'.$name.'"><img src="'.$heroImage.'"></div>';
+    $heroPosition = '<div id="'.$name.'"><img src="'.$heroImage.'"height="90px" width="90px"></div>';
     echo $css.$heroPosition;
 }
 
@@ -53,44 +53,20 @@ function encounter($mapTileNumber){
     $up=$mapTileNumber-8;
     $down=$mapTileNumber+8;
 
-    if($left%8==0){
-        $left = false;
-    }
-        else{
-            $data = getTileData($left);
-            
-                if($data['tileBlock']=='obstruction')
-                    $left=false;
-                else
-                    $left=true;
-            
-        }
-    if($right%8==1){
-        $right = false;
-    }
-    else{
-        $data = getTileData($right);
 
-            if($data['tileBlock']=='obstruction')
-            {
-        
-                $right=false;
-            }
-            else   
-                $right=true;
-
-    }
     if($up<0){
         $up=false;
     }
     else{
         $data = getTileData($up);
 
-            if($data['tileBlock']=='obstruction')
+             if($data['tileBlock']=='obstruction')
                 $up=false;
             else
                 $up=true;
     }
+
+
     if($down>64)
     {
         $down = false;
@@ -104,6 +80,40 @@ function encounter($mapTileNumber){
                 $down = true;
         }
 
+        if($right%8==1){
+            $right = false;
+        }
+        else{
+            $data = getTileData($right);
+    
+                if($data['tileBlock']=='obstruction')
+                {
+            
+                    $right=false;
+                   
+                }
+                else   {
+                    $right=true;
+                   
+                }
+    
+        }
+
+    if($left%8==0){
+        $left = false;
+    }
+        else{
+            $data = getTileData($left);
+            
+                if($data['tileBlock']=='obstruction')
+                    $left=false;
+                else
+                    $left=true;
+            
+        }
+
+
+
     
         $_SESSION['up']=$up;
         $_SESSION['down']=$down;
@@ -113,10 +123,16 @@ function encounter($mapTileNumber){
 
 }
 
+// function wallAndEnemyDetection($mapTileNumber){
+//     $data = getTileData($mapTileNumber){
+//         if($data['tileBlock']=='wall')
+//     }
+// }
+
 function getTileData($mapTileNumber){
     $cnt=1;
         foreach($_SESSION['mapaDatabase'] as $rows){
-            if($cnt=$mapTileNumber) 
+            if($cnt==$mapTileNumber) 
             return $rows;
             $cnt++;
         }
