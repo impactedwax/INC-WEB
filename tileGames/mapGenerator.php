@@ -28,11 +28,12 @@ function mapGenerator(){
     echo $mapGrid;
 }
 function heroPosition($x, $y, $heroImage, $name, $index){
-    $html='';
+  
+
     $left = ($x*90);
     $top = (90*7) - ($y*90);
     $css = "<style> #".$name."{
-        margin: 0;
+        margin: 20px;
         padding: 0;
         position: absolute;
         width: 90;
@@ -43,6 +44,82 @@ function heroPosition($x, $y, $heroImage, $name, $index){
     }</style>";
     $heroPosition = '<div id="'.$name.'"><img src="'.$heroImage.'"></div>';
     echo $css.$heroPosition;
+}
+
+function encounter($mapTileNumber){
+    $data;
+    $right=$mapTileNumber+1;
+    $left=$mapTileNumber-1;
+    $up=$mapTileNumber-8;
+    $down=$mapTileNumber+8;
+
+    if($left%8==0){
+        $left = false;
+    }
+        else{
+            $data = getTileData($left);
+            
+                if($data['tileBlock']=='obstruction')
+                    $left=false;
+                else
+                    $left=true;
+            
+        }
+    if($right%8==1){
+        $right = false;
+    }
+    else{
+        $data = getTileData($right);
+
+            if($data['tileBlock']=='obstruction')
+            {
+        
+                $right=false;
+            }
+            else   
+                $right=true;
+
+    }
+    if($up<0){
+        $up=false;
+    }
+    else{
+        $data = getTileData($up);
+
+            if($data['tileBlock']=='obstruction')
+                $up=false;
+            else
+                $up=true;
+    }
+    if($down>64)
+    {
+        $down = false;
+    }
+        else{
+            $data = getTileData($down);
+
+            if($data['tileBlock']=='obstruction')
+                $down= false;
+            else
+                $down = true;
+        }
+
+    
+        $_SESSION['up']=$up;
+        $_SESSION['down']=$down;
+        $_SESSION['left']=$left;
+        $_SESSION['right']=$right;
+        
+
+}
+
+function getTileData($mapTileNumber){
+    $cnt=1;
+        foreach($_SESSION['mapaDatabase'] as $rows){
+            if($cnt=$mapTileNumber) 
+            return $rows;
+            $cnt++;
+        }
 }
     
     // foreach($row as $rows)
