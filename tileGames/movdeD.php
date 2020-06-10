@@ -1,5 +1,5 @@
 <?php 
-
+ob_start();
 session_start();
 function moveDown(){
 
@@ -8,7 +8,7 @@ function moveDown(){
                 
     }
 moveDown();
-  header('Location: index.php');
-
+header('Location: index.php');
+ob_enf_fluch();
 
 ?>

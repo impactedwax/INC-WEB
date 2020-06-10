@@ -1,6 +1,10 @@
 <?php 
     session_start();
  //session_destroy();
+
+ require_once("mapGenerator.php");
+
+
     if(!isset($_SESSION['startGame']))
     {
 
@@ -8,12 +12,15 @@
         $_SESSION['heroX'] = 0;
         $_SESSION['heroY'] = 7;
         $_SESSION['startGame'] = 1;
-        $_SESSION['heroImage'] = "images\charRight.png ";
+        $_SESSION['heroImage'] = "images\cright.png ";
         $_SESSION['mapLevel'] = 1;
-     
+        $_SESSION['mobMapLevel']= "images\111.png";
+
+    
 
     }
-require_once("mapGenerator.php");
+
+ //require_once("combating.php");
 
 
 $sql ="SELECT * from mapGen where map = ".$_SESSION['mapLevel']."  ORDER BY tileNumber ASC";
@@ -21,6 +28,13 @@ $sql ="SELECT * from mapGen where map = ".$_SESSION['mapLevel']."  ORDER BY tile
 $query=$dbConn->prepare($sql);
 $query->execute();
 $_SESSION['mapaDatabase'] = $query ->fetchall(); 
+
+
+$sql ="SELECT * from hero where heroId = 1";
+
+$query=$dbConn->prepare($sql);
+$query->execute();
+$_SESSION['heroData'] = $query ->fetchall();
 
 ?>
 
@@ -66,20 +80,25 @@ td {
 <body>
     <div id="map">
     <?php
-      heroPosition($_SESSION['heroX'], $_SESSION['heroY'], "images\charRight.png ","covid",3);
+       
+      heroPosition($_SESSION['heroX'], $_SESSION['heroY'],  $_SESSION['heroImage'],"covid",3);
         mapGenerator();
            ?>
     </div>
 <?php 
     encounter($_SESSION['heroPos']);
     nextMap($_SESSION['heroPos']);
+    combat($_SESSION['heroPos']);
     if($_SESSION['left'] == false)
     {
+       
          echo '<a href="#"><img src="images\arleft.png" opacity:0.5></a>';
       }
     else
     {
+       
        echo '<a href="moveL.php  " onClick= moveLeft()><img src="images\arleft.png" opacity:0.5></a>';
+       
     }
     if($_SESSION['up'] == false)
     {
@@ -105,7 +124,10 @@ td {
   {
         echo '<a href="moveR.php  " onClick= moveRight()><img src="images\arright.png" opacity:0.5></a>';
   }
-  echo ($_SESSION['heroPos']);
+  echo  ($_SESSION['heroPos']);
+  echo '</br>';
+  echo ($_SESSION['heroX'].''.$_SESSION['heroY']);
+ 
 ?>
 
 

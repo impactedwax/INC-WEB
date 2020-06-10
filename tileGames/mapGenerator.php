@@ -1,7 +1,28 @@
 <?php 
-
+     
     require_once("config.php");
-   
+function heroDetails(){
+    foreach($_SESSION['heroData'] as $rows){
+        $heroDetails = $rows['heroName'];
+            $heroH;
+            $heroD;
+            $heroN;
+            if($heroDetails == "Kevin"){
+               
+               $heroN = $rows['heroName'];
+               $heroD = $rows['heroDamage'];
+               $heroH = $rows['heroHealth'];
+             }
+                
+    
+    }
+
+    $_SESSION['heroName'] = $heroN;
+
+    $_SESSION['heroHealth'] = $heroH;
+
+    $_SESSION['heroDamage'] = $heroD;
+}
 function mapGenerator(){
     
     $mapGrid = '<table border ="1.5" ><tr>';
@@ -12,24 +33,32 @@ function mapGenerator(){
 
            if($colomn % 8 == 0){
             if($tileBlock == 'passable')
-                $mapGrid.='<tr><td><div class="tile">'.'<img src="0.png" height="90" width="90" >'.'</div></td>';
+                $mapGrid.='<tr><td><div class="tile">'.'<img src="images\0.png" height="90" width="90" >'.'</div></td>';
             else if ($tileBlock=='portal')
-                  $mapGrid.='<tr><td><div class="tile">'.'<img src="0.png" height="90" width="90" >'.'</div></td>';
+                  $mapGrid.='<tr><td><div class="tile">'.'<img src="images\2.png" height="90" width="90" >'.'</div></td>';
+            else if ($tileBlock=='infection')
+                  $mapGrid.='<tr><td><div class="tile">'.'<img src="images\infection.png" height="90" width="90" >'.'</div></td>';
+            else if ($tileBlock=='virus')
+                  $mapGrid.='<tr><td><div class="tile">'.'<img src="images\virus.png" height="90" width="90" >'.'</div></td>';
             else
-                $mapGrid.='<tr><td><div class="tile">'.'<img src="1.png"  height="90" width="90">'.'</div></td>';
+                $mapGrid.='<tr><td><div class="tile">'.'<img src="images\1.png"  height="90" width="90">'.'</div></td>';
         }
         else{
             if($tileBlock == 'passable')
-                $mapGrid.='<td><div class="tile">'.'<img src="0.png"  height="90" width="90"> '.'</div></td>';
+                $mapGrid.='<td><div class="tile">'.'<img src="images\0.png"  height="90" width="90"> '.'</div></td>';
             else if ($tileBlock=='portal')
-                 $mapGrid.='<td><div class="tile">'.'<img src="0.png"  height="90" width="90"> '.'</div></td>';
+                 $mapGrid.='<td><div class="tile">'.'<img src="images\2.png"  height="90" width="90"> '.'</div></td>';
+            else if ($tileBlock=='infection')
+                 $mapGrid.='<td><div class="tile">'.'<img src="images\infection.png"  height="90" width="90"> '.'</div></td>';
+            else if ($tileBlock=='virus')
+                 $mapGrid.='<td><div class="tile">'.'<img src="images\virus.png"  height="90" width="90"> '.'</div></td>';
             else
-                $mapGrid.='<td><div class="tile">'.'<img src="1.png"  height="90" width="90"> '.'</div></td>';
+                $mapGrid.='<td><div class="tile">'.'<img src="images\1.png"  height="90" width="90"> '.'</div></td>';
         }
         $colomn++;
     }
-    $mapGrid.='</tr></table>';
-    echo $mapGrid;
+$mapGrid.='</tr></table>';
+echo $mapGrid;
 }
 function heroPosition($x, $y, $heroImage, $name, $index){
   
@@ -137,6 +166,7 @@ function encounter($mapTileNumber){
 function nextMap($mapTileNumber){
 
 $data=getTileData($mapTileNumber);
+$cnt=111;
 if($data['tileBlock']=='portal'){
     $_SESSION['heroX']=0;
     $_SESSION['heroY']=7;
@@ -144,6 +174,8 @@ if($data['tileBlock']=='portal'){
 
     if($_SESSION['mapLevel']<3){
         $_SESSION['mapLevel']++;
+        $cnt++;
+    
         echo '<script>window.location.reload()</script>';
     }
 }
@@ -158,22 +190,26 @@ function getTileData($mapTileNumber){
             $cnt++;
         }
     }
-function getMapDetails($mapTileNumber)
-{
-    $cnt=1;
-    foreach($_SESSION['mapaDatabase']as $rows)
-        {
-            if ($cnt==$mapTileNumber)
-            {
-                $tileBlock=$rows['tileBlock'];
-                if($tileBlock=='portal')
-                {
-                    return $rows=1;
-                }
-                return $rows;
+
+    function getHeroData($heroData){
+        
+      
+            foreach($_SESSION['heroData'] as $rows){
+                if($_SESSION['heroData']=='Kevin') 
+            return $rows;
             }
-            $cnt++;
         }
+
+function combat($mapTileNumber){
+    $data=getTileData($mapTileNumber);
+    if($data['tileBlock']=='infection'){
+ echo 'Found Infection';
+ //echo '<script>window.location.reload()</script>';
+ header('Location: combatDisplay.php');
+
+      
+    }
+
 }
 
     
