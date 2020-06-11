@@ -1,12 +1,12 @@
 <?php 
 ob_start();
 session_start();
-function attack(){
-    header('Location: combatDisplay.php');
+function continueM(){
 
+    header('Location: index.php');
                 
     }
-attack();
+continueM();
 
 ob_enf_fluch();
 

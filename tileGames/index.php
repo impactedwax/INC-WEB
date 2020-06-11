@@ -16,8 +16,6 @@
         $_SESSION['mapLevel'] = 1;
         $_SESSION['mobMapLevel']= "images\111.png";
 
-    
-
     }
 
  //require_once("combating.php");
@@ -43,39 +41,11 @@ $_SESSION['heroData'] = $query ->fetchall();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="css.css">
+    <title>Covid 19</title>
 </head>
 <style>
 
-body {
- background-image: url('bg_main.png');
- background-color: #cccccc;
- background-repeat: none;
-}
-
-table {
-   border-collapse: collapse;
-}
-
-/* And this to your table's `td` elements. */
-td {
-   padding: 0; 
-   margin: 0;
-}
-
-#mapGrid{
-    margin: 0;
-    padding: 0;
-    position: absolute;
-    background-color: #fe9800;
-    width: 700px;
-    height: 700px;
-    left: 74px;
-    top: 76px
-}
-.tile{
-    margin: 0;
-}
 </style>
 <body>
     <div id="map">
@@ -90,15 +60,12 @@ td {
     nextMap($_SESSION['heroPos']);
     combat($_SESSION['heroPos']);
     if($_SESSION['left'] == false)
-    {
-       
+      {
          echo '<a href="#"><img src="images\arleft.png" opacity:0.5></a>';
       }
     else
-    {
-       
+    {  
        echo '<a href="moveL.php  " onClick= moveLeft()><img src="images\arleft.png" opacity:0.5></a>';
-       
     }
     if($_SESSION['up'] == false)
     {

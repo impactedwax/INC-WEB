@@ -3,7 +3,7 @@
 
         public $name ="Covid 19";
         public $health = 100;
-        public $damage = 25;
+        public $damage = 15;
 
 
         public function __construct(){

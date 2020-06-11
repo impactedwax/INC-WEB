@@ -151,9 +151,6 @@ function encounter($mapTileNumber){
                     $left=true;
             
         }
-
-
-       
     
         $_SESSION['up']=$up;
         $_SESSION['down']=$down;
@@ -203,12 +200,18 @@ function getTileData($mapTileNumber){
 function combat($mapTileNumber){
     $data=getTileData($mapTileNumber);
     if($data['tileBlock']=='infection'){
- echo 'Found Infection';
+        echo 'Found Infection';
+        echo '<a href="attack.php  " onClick= attack()><img src="images\attack.png"  height="120" width="120" opacity:0.5></a>';
+    }
+    else if($data['tileBlock']=='virus'){
+        echo 'Found Virus';
+     echo '<a href="attack.php  " onClick= attack()><img src="images\attack.png"  height="120" width="120" opacity:0.5></a>';
+    }
  //echo '<script>window.location.reload()</script>';
- header('Location: combatDisplay.php');
+//  header('Location: combatDisplay.php');
 
       
-    }
+    
 
 }
 

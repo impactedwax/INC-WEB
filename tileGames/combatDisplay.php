@@ -4,13 +4,7 @@
     require_once('mapGenerator.php');
   session_start();
 //session_destroy();
-if(!isset($_SESSION['startGame']))
-{
-     
-
-    $_SESSION['startGame']= 1;  
-
-}
+$_SESSION['win']='you win';
   $isAtacked = false;
  
   $infection = new infection();
@@ -23,7 +17,7 @@ if(!isset($_SESSION['startGame']))
         $infection->health($_GET['infectionHealth']);
     }
     if(isset($_GET['hero'])){
-        $_GET['hero']=$hero->getHeroHealth();
+        
         $hero->heroHealth($_GET['hero']);
     }
     
@@ -79,6 +73,7 @@ if(!isset($_SESSION['startGame']))
            <?php echo '<td>Name: '.$infection->getInfectionName()."<br><br>";
             echo 'Health: '.$infection->getInfectionHealth()."<br><br>";
             echo 'Damag: '.$infection->getDamage()."<br>";
+         
             ?></td>
 
      
@@ -91,24 +86,41 @@ if(!isset($_SESSION['startGame']))
 
             $_SESSION['infectionHp']= $infection->getInfectionHealth();
             $_SESSION['infectionD'] = $infection->getDamage();
+
+
+
+            
+            $_SESSION['infectionHp']=$_SESSION['infectionHp']-$_SESSION['heroD'];
+            
+            $_SESSION['heroH']=$_SESSION['heroH']-$_SESSION['infectionD'];
+
         ?>
         </tbody>
         </table>
     
     </center>
     <center>
-    <?php
-   
-              
-                echo '<div style="width:110px; float:left;"><form action="" method="post"/><br><br><br><br>
-                <a href="attack.php.  " onClick= attack()>ATTACK</a><br><br>
-                <input type="submit" class="btn2 border2 border33" name="user_choice" value="Block" title="Block"><br><br>
-                <input type="submit" class="btn3 border3 border33" name="user_choice" value="Heal" title="Heal"><br></div>';
-        
-        ?>
-        <?php 
-    ?>
-     
+    <table cellpadding= "20" cellspacing= "20" border= "0">
+        <tbody>
+            <th>
+            <td>
+                    <?php 
+                          
+                            if($infection->getInfectionHealth()<20)
+                            {
+                                echo 'You win';
+                                echo '<a href="continue.php  " onClick= continueM()><img src="images\continue.png" height="120" width="120" opacity:0.5></a>';
+                                // sleep(5);
+                                // header('Location: index.php');
+                            }
+                    ?>
+              </td>
+              <tr>  
+                <a href="<?php echo "?infectionHealth=".$_SESSION['infectionHp']."&hero=".$_SESSION['heroH']; ?>"><img src="images\attack.png"  height="120" width="120" opacity:0.5></a>
+           </tr>
+            </th>
+        </tbody>
+     </table>
         </center>
     
 </body>

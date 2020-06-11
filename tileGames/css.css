@@ -1,0 +1,30 @@
+
+body {
+    background-image: url('bg_main.png');
+    background-color: #cccccc;
+    background-repeat: none;
+   }
+   
+   table {
+      border-collapse: collapse;
+   }
+   
+   /* And this to your table's `td` elements. */
+   td {
+      padding: 0; 
+      margin: 0;
+   }
+   
+   #mapGrid{
+       margin: 0;
+       padding: 0;
+       position: absolute;
+       background-color: #fe9800;
+       width: 700px;
+       height: 700px;
+       left: 74px;
+       top: 76px
+   }
+   .tile{
+       margin: 0;
+   }
