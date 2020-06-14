@@ -29,4 +29,8 @@
     public function getInfectionHealth(){
             return $this->health;
     }
+
+    public function damage($damage){
+        $this->damage = $damage;
+    }
     }

@@ -1,6 +1,22 @@
+
 <?php 
-     
+                 
     require_once("config.php");
+
+function updateHeroLife($heroHp){
+
+ 
+          
+
+
+
+$stmt = $this->mysqli->prepare("UPDATE hero SET heroHealth='$heroHp' WHERE heroId=1");
+                              
+        $stmt->bind_param('heroHealth', $heroHp);
+$query=$dbConn->prepare($stmt);
+$query->execute();
+}
+
 function heroDetails(){
     foreach($_SESSION['heroData'] as $rows){
         $heroDetails = $rows['heroName'];
@@ -174,6 +190,16 @@ if($data['tileBlock']=='portal'){
         $cnt++;
     
         echo '<script>window.location.reload()</script>';
+
+    }
+    else
+    {
+        $_SESSION['mapLevel']=1;
+        $message = "You Completed All the Map Level";
+        echo "<script type='text/javascript'>alert('$message');
+        window.location.href='http://localhost/INCwEB/INC-WEB/tileGames/index.php';
+        </script>";
+       
     }
 }
 
@@ -201,11 +227,13 @@ function combat($mapTileNumber){
     $data=getTileData($mapTileNumber);
     if($data['tileBlock']=='infection'){
         echo 'Found Infection';
-        echo '<a href="attack.php  " onClick= attack()><img src="images\attack.png"  height="120" width="120" opacity:0.5></a>';
+        $_SESSION['foundEnemy']='infection';
+        echo '<br><a href="attack.php  " onClick= attack()><img src="images\attack.png"  height="120" width="120" opacity:0.5></a>';
     }
     else if($data['tileBlock']=='virus'){
         echo 'Found Virus';
-     echo '<a href="attack.php  " onClick= attack()><img src="images\attack.png"  height="120" width="120" opacity:0.5></a>';
+        $_SESSION['foundEnemy']='virus';
+     echo '<br><a href="attack.php  " onClick= attack()><img src="images\attack.png"  height="120" width="120" opacity:0.5></a>';
     }
  //echo '<script>window.location.reload()</script>';
 //  header('Location: combatDisplay.php');

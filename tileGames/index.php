@@ -14,7 +14,7 @@
         $_SESSION['startGame'] = 1;
         $_SESSION['heroImage'] = "images\cright.png ";
         $_SESSION['mapLevel'] = 1;
-        $_SESSION['mobMapLevel']= "images\111.png";
+        $_SESSION['foundEnemy']= "";
 
     }
 
@@ -33,6 +33,8 @@ $sql ="SELECT * from hero where heroId = 1";
 $query=$dbConn->prepare($sql);
 $query->execute();
 $_SESSION['heroData'] = $query ->fetchall();
+
+
 
 ?>
 
@@ -59,6 +61,8 @@ $_SESSION['heroData'] = $query ->fetchall();
     encounter($_SESSION['heroPos']);
     nextMap($_SESSION['heroPos']);
     combat($_SESSION['heroPos']);
+  
+  
     if($_SESSION['left'] == false)
       {
          echo '<a href="#"><img src="images\arleft.png" opacity:0.5></a>';
@@ -91,6 +95,7 @@ $_SESSION['heroData'] = $query ->fetchall();
   {
         echo '<a href="moveR.php  " onClick= moveRight()><img src="images\arright.png" opacity:0.5></a>';
   }
+
   echo  ($_SESSION['heroPos']);
   echo '</br>';
   echo ($_SESSION['heroX'].''.$_SESSION['heroY']);
