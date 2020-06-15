@@ -6,7 +6,7 @@
   session_start();
 //session_destroy();
 $_SESSION['win']='you win';
-  $isAtacked = false;
+  $_SESSION['isAttacked'] = false;
  
   $infection = new infection();
    
@@ -104,11 +104,10 @@ $_SESSION['win']='you win';
             $_SESSION['infectionD'] = $infection->getDamage();
 
 
+      
 
             
-            $_SESSION['infectionHp']=$_SESSION['infectionHp']-$_SESSION['heroD'];
-            
-            $_SESSION['heroH']=$_SESSION['heroH']-$_SESSION['infectionD'];
+ 
 
         ?>
         </tbody>
@@ -124,11 +123,21 @@ $_SESSION['win']='you win';
               </td>
               <tr>  
               
-                <a href="<?php echo "?infectionHealth=".$_SESSION['infectionHp']."&hero=".$_SESSION['heroH']; ?>">
+
+
+
+                <a href="<?php 
+                                $_SESSION['infectionHp']=$_SESSION['infectionHp']-$_SESSION['heroD'];
+                                $_SESSION['heroH']=$_SESSION['heroH']-$_SESSION['infectionD'];
+                      
+                echo "?infectionHealth=".$_SESSION['infectionHp']."&hero=".$_SESSION['heroH'];  ?>">
                 <?php 
-                         if($infection->getInfectionHealth()>0){
-                echo '<img src="images\attack.png"  height="120" width="120" opacity:0.5></a>';
-             }
+                
+              
+                         if($infection->getInfectionHealth()>0)
+                            {
+                               echo '<img src="images\attack.png"  height="120" width="120" opacity:0.5></a>';
+                            }
                             else
                             {
                               //  updateHeroLife($hero->getHeroHealth());
@@ -138,6 +147,23 @@ $_SESSION['win']='you win';
                                 // header('Location: index.php');
                             }
                 ?>
+
+             <a href="<?php
+                 if ($hero->getHeroHealth()<100){
+                 $_SESSION['heroH']=$_SESSION['heroH']+10;
+                    
+                 }
+                 $_SESSION['infectionHp']=$_SESSION['infectionHp']+$_SESSION['heroD'];
+                    $_SESSION['heroH']=$_SESSION['heroH']+$_SESSION['infectionD'];
+                echo "?infectionHealth=".$_SESSION['infectionHp']."&hero=".$_SESSION['heroH']; ?>"> 
+                 <?php  if($infection->getInfectionHealth()>0)
+                 {
+                        
+                 
+                    echo '<img src="images\heal.png"  height="120" width="120" opacity:0.5></a>';
+                 }
+?>
+               
            </tr>
             </th>
         </tbody>
